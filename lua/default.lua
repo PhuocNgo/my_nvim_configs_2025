@@ -20,6 +20,8 @@ opt.backspace = "indent,eol,start"
 opt.clipboard:append("unnamedplus")
 opt.splitright = true
 opt.splitbelow = true
+vim.cmd([[let &shell = '"C:/Program Files/Git/bin/bash.exe"']])
+vim.cmd([[let &shellcmdflag = '-s']])
 
 -- keymap:
 local keymap = vim.keymap
@@ -38,7 +40,7 @@ local function close_buffer()
 end
 
 keymap.set("n", "<leader>bd", close_buffer)
-keymap.set("n", "<C-t>", ":ToggleTerm<CR>")
+keymap.set("n", "<C-t>", ":ToggleTerm name=Terminal<CR>")
 keymap.set("t", "jk", [[<C-\><C-n>]])
 keymap.set({ "i", "n", "v" }, "<C-s>", "<ESC>:w<CR>")
 keymap.set("i", "<C-h>", "<Left>")

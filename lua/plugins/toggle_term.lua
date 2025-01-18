@@ -9,6 +9,7 @@ return {
 			},
 			shade_terminals = false, -- Làm mờ các cửa sổ khác khi terminal mở
 			start_in_insert = true, -- Bắt đầu ở chế độ Insert khi mở terminal
+			shell = vim.o.shell,
 		})
 	end,
 }

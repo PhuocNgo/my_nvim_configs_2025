@@ -8,6 +8,7 @@ vim.g.maplocalleader = "\\"
 
 local opt = vim.opt
 
+opt.cursorline = true
 opt.relativenumber = true
 opt.autoindent = true
 opt.number = true

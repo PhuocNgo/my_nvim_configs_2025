@@ -49,7 +49,6 @@ keymap.set("i", "<C-j>", "<Down>")
 keymap.set("i", "<C-k>", "<Up>")
 keymap.set("i", "<C-l>", "<Right>")
 keymap.set("i", "jk", "<ESC>")
-keymap.set("n", ";", ":")
 keymap.set({ "n", "v" }, "<leader>qq", ":q!<CR>")
 
 -- window management

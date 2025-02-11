@@ -10,8 +10,28 @@ return {
 
 		nvimtree.setup({
 			view = {
-				width = 30,
 				relativenumber = true,
+				float = {
+					enable = true,
+					quit_on_focus_loss = true,
+					open_win_config = function()
+						local screen_w = vim.o.columns
+						local screen_h = vim.o.lines
+						local window_w = 30
+						local window_h = math.floor(screen_h * 10 / 11)
+						local center_x = (screen_w - window_w) / 6
+						local center_y = (screen_h - window_h) / 3
+						return {
+							relative = "editor",
+							border = "rounded",
+							width = window_w,
+							height = window_h,
+							row = center_y,
+							col = center_x,
+						}
+					end,
+				},
+				width = 50,
 			},
 			-- change folder arrow icons
 			renderer = {

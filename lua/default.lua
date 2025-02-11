@@ -21,9 +21,7 @@ opt.backspace = "indent,eol,start"
 opt.clipboard:append("unnamedplus")
 opt.splitright = true
 opt.splitbelow = true
-vim.cmd([[let &shell = '"C:/Program Files/Git/bin/bash.exe"']])
-vim.cmd([[let &shellcmdflag = '-s']])
-
+opt.shell = '"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"'
 -- keymap:
 local keymap = vim.keymap
 
@@ -37,11 +35,10 @@ local function close_buffer()
 		vim.cmd("bnext")
 	end
 
-	vim.cmd("bdelete " .. current_buf)
+	vim.cmd("bdelete! " .. current_buf)
 end
 
 keymap.set("n", "<leader>bd", close_buffer)
-keymap.set("n", "<C-t>", ":ToggleTerm name=Terminal<CR>")
 keymap.set("t", "jk", [[<C-\><C-n>]])
 keymap.set({ "i", "n", "v" }, "<C-s>", "<ESC>:w<CR>")
 keymap.set("i", "<C-h>", "<Left>")
@@ -50,6 +47,13 @@ keymap.set("i", "<C-k>", "<Up>")
 keymap.set("i", "<C-l>", "<Right>")
 keymap.set("i", "jk", "<ESC>")
 keymap.set({ "n", "v" }, "<leader>qq", ":q!<CR>")
+-- move lines:
+keymap.set("n", "<A-j>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move Down" })
+keymap.set("n", "<A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move Up" })
+keymap.set("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Down" })
+keymap.set("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
+keymap.set("v", "<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = "Move Down" })
+keymap.set("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move Up" })
 
 -- window management
 keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })
@@ -63,3 +67,10 @@ keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" 
 keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" })
+vim.api.nvim_create_autocmd("TermOpen", {
+	group = vim.api.nvim_create_augroup("custom-term-open", { clear = true }),
+	callback = function()
+		vim.opt.number = false
+		vim.opt.relativenumber = false
+	end,
+})

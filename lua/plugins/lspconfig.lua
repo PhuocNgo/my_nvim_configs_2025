@@ -65,6 +65,7 @@ return {
 		})
 
 		local capabilities = cmp_nvim_lsp.default_capabilities()
+		local util = require("lspconfig/util")
 
 		local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
 		for type, icon in pairs(signs) do
@@ -76,8 +77,42 @@ return {
 			function(server_name)
 				lspconfig[server_name].setup({
 					capabilities = capabilities,
+					handlers = {
+						["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+							border = "rounded",
+						}),
+						["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+							border = "rounded",
+						}),
+					},
 				})
 			end,
+			["gopls"] = function()
+				lspconfig["gopls"].setup({
+					cmd = { "gopls" },
+					handlers = {
+						["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+							border = "rounded",
+						}),
+						["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+							border = "rounded",
+						}),
+					},
+					filetypes = { "go", "gomod", "gowork", "gotmpl" },
+					root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+					settings = {
+						gopls = {
+							completeUnimported = true,
+						},
+					},
+				})
+			end,
+		})
+
+		vim.diagnostic.config({
+			float = {
+				border = "rounded",
+			},
 		})
 	end,
 }

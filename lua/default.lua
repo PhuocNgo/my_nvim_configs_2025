@@ -1,5 +1,5 @@
-vim.cmd("set expandtab")
 vim.cmd("set tabstop=2")
+vim.cmd("set expandtab")
 vim.cmd("set softtabstop=2")
 vim.cmd("set shiftwidth=2")
 vim.cmd("let g:netrw_liststyle = 3")
@@ -8,6 +8,7 @@ vim.g.maplocalleader = "\\"
 
 local opt = vim.opt
 
+opt.scrolloff = 999
 opt.cursorline = true
 opt.relativenumber = true
 opt.autoindent = true
@@ -67,6 +68,7 @@ keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" 
 keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" })
+
 vim.api.nvim_create_autocmd("TermOpen", {
 	group = vim.api.nvim_create_augroup("custom-term-open", { clear = true }),
 	callback = function()
@@ -74,3 +76,13 @@ vim.api.nvim_create_autocmd("TermOpen", {
 		vim.opt.relativenumber = false
 	end,
 })
+
+vim.api.nvim_create_autocmd("CursorMoved", {
+	pattern = "*",
+	command = "normal! zz",
+})
+
+keymap.set("n", "j", "jzz", { noremap = true, silent = true })
+keymap.set("n", "k", "kzz", { noremap = true, silent = true })
+keymap.set("n", "<tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
+keymap.set("n", "<S-tab>", "<cmd>bprevious<cr>", { desc = "Previous buffer" })

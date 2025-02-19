@@ -27,8 +27,8 @@ opt.shell = '"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"'
 local keymap = vim.keymap
 
 local function close_buffer()
-	local current_buf = vim.api.nvim_get_current_buf() -- Buffer hiện tại
-	local next_buf = vim.fn.bufnr("#") -- Buffer được truy cập trước đó
+	local current_buf = vim.api.nvim_get_current_buf()
+	local next_buf = vim.fn.bufnr("#")
 
 	if vim.api.nvim_buf_is_valid(next_buf) and vim.api.nvim_buf_is_loaded(next_buf) then
 		vim.cmd("buffer " .. next_buf)
@@ -77,12 +77,5 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("CursorMoved", {
-	pattern = "*",
-	command = "normal! zz",
-})
-
-keymap.set("n", "j", "jzz", { noremap = true, silent = true })
-keymap.set("n", "k", "kzz", { noremap = true, silent = true })
 keymap.set("n", "<tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 keymap.set("n", "<S-tab>", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
